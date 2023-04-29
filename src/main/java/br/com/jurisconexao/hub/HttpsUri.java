@@ -1,29 +1,29 @@
 package br.com.jurisconexao.hub;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-
-@EnableConfigurationProperties(Configuration.class)
+@Configuration
 public class HttpsUri {
 
 	@Bean
-	public RouteLocator myRoutes(RouteLocatorBuilder builder, Configuration uriConfiguration) {
-		String httpUri = uriConfiguration.getHttpbin();
-		return builder.routes()
-			.route(p -> p
-				.path("/get")
-				.filters(f -> f.addRequestHeader("Hello", "World"))
-				.uri(httpUri))
-			.route(p -> p
-				.host("*.circuitbreaker.com")
-				.filters(f -> f
-					.circuitBreaker(config -> config
-						.setName("mycmd")
-						.setFallbackUri("forward:/fallback")))
-				.uri(httpUri))
-			.build();
-	}
+	public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+		String httpUri = "http://localhost:8081";
+		String httpUri2 = "http://localhost:8082";
+		
+	        return builder.routes()
+	                .route(r -> r.path("/auth/**")
+	                        .uri(httpUri))
+	                .route(r -> r.path("/consumer/**")
+	                		.filters(f -> f
+	            					.circuitBreaker(config -> config
+	            						.setName("mycmd")
+	            						.setFallbackUri("forward:/fallback")))
+	                        .uri(httpUri2))
+	                .build();
+	    }
+	
 }
