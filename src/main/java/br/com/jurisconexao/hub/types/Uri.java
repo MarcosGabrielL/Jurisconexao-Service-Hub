@@ -9,10 +9,14 @@ public class Uri {
 	public static String uri_pago = "http://localhost:8082";
 	
 	public static String path_auth_authenticate =  "/authenticate";
-	public static String path_process_register = "/process_register";
-	
+	public static String path_auth_process_register = "/process_register";
 	public static String path_auth_islogged  =  "/logged";
+	
 	public static String path_chat_public = "/topic/public/";
+	
+	public static String path_pago_plan1 = "";
+	
+	public static String path_nfe_plan1 = "";
 	
 	
 	
