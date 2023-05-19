@@ -11,6 +11,5 @@ RUN apk add --no-cache tzdata
 ENV TZ=America/Bahia
 
 COPY src ./src
-COPY src/main/resources/application.properties.prod  ./src/main/resources/application.properties
 
 CMD ["./mvnw", "spring-boot:run"]
