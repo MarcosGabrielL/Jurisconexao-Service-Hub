@@ -40,7 +40,7 @@ public class HttpsUri {
 										.setName(circuitBreaker.circuit_process_register.toString())
 										.setFallbackUri("forward:/fallback"))
 								.filter(new AuthenticationFilter(getwebClient( Uri.uri_auth))))
-						.uri(Uri.path_chat_public.toString()))
+						.uri(Uri.uri_chat.toString()))
 				.route(Rota.process_register.toString(), r -> r
 						.path(Uri.path_auth_process_register) 
 						.filters(f -> f
@@ -66,7 +66,7 @@ public class HttpsUri {
 											});
 								})   		
 								)
-						.uri(Uri.path_chat_public.toString()))
+						.uri(Uri.uri_nfe.toString()))
 				.route(Rota.pay_nfe.toString(), r -> r 
 						.path(Uri.path_nfe_plan1.toString())
 						.uri(Uri.uri_nfe.toString()))

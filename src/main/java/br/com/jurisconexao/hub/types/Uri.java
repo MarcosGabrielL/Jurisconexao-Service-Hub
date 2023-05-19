@@ -12,7 +12,7 @@ public class Uri {
 	public static String path_auth_process_register = "/process_register";
 	public static String path_auth_islogged  =  "/logged";
 	
-	public static String path_chat_public = "/topic/public/";
+	 //public static String path_chat_public = "/topic";
 	
 	public static String path_pago_plan1 = "";
 	
