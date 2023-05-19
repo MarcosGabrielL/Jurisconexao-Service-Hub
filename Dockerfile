@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 RUN sed -i 's/\r$//' mvnw
-#RUN /bin/sh ./mvnw dependency:go-offline
+RUN chmod +x mvnw
 
 RUN apk add --no-cache tzdata
 ENV TZ=America/Bahia
