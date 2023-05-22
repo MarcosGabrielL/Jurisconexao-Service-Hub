@@ -1,6 +1,5 @@
-
 # Use the official maven/Java 11 image as the base image
-FROM openjdk:11-jre-slim AS builder
+FROM maven:3.8.4-openjdk-11 AS builder
 
 # Set the working directory in the container
 WORKDIR /app
@@ -18,7 +17,7 @@ COPY src/ ./src/
 RUN mvn package -DskipTests
 
 # Use a lightweight Java 11 image as the base image
-FROM openjdk:11-jre-slim
+FROM adoptopenjdk:11-jre-hotspot
 
 # Set the working directory in the container
 WORKDIR /app
