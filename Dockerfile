@@ -1,32 +1,20 @@
-# Use the official maven/Java 11 image as the base image
-FROM maven:3.8.4-openjdk-11 AS builder
+# Define a imagem base
+FROM adoptopenjdk:17-jdk-hotspot
 
-# Set the working directory in the container
+# Define o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copy the pom.xml file to the container
+# Copia o arquivo pom.xml para o diretório de trabalho
 COPY pom.xml .
 
-# Download the dependencies and cache them in the container
+# Executa o comando para baixar as dependências do Maven
 RUN mvn dependency:go-offline
 
-# Copy the project source code to the container
-COPY src/ ./src/
+# Copia todo o código fonte para o diretório de trabalho
+COPY . .
 
-# Build the application inside the container
+# Executa o comando para compilar o projeto
 RUN mvn package -DskipTests
 
-# Use a lightweight Java 11 image as the base image
-FROM adoptopenjdk:11-jre-hotspot
-
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy the built JAR file from the builder stage to the container
-COPY --from=builder /app/target/hub-0.0.1-SNAPSHOT.jar .
-
-# Expose the port that the application listens on
-EXPOSE 8080
-
-# Set the command to run the application
-CMD ["java", "-jar", "hub-0.0.1-SNAPSHOT.jar"]
+# Define o comando de inicialização do container
+CMD ["java", "-jar", "target/hub-0.0.1-SNAPSHOT.jar"]
