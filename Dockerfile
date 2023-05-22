@@ -1,25 +1,23 @@
-# Define a imagem base
-FROM openjdk:17-jdk-slim  AS builder
+# Stage 1: Build the project
+FROM maven:3.8.4-openjdk-17-slim AS builder
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the pom.xml file to the container
+# Copy the pom.xml file
 COPY pom.xml .
 
-# Download the dependencies and cache them in the container
+# Download the project dependencies
 RUN mvn dependency:go-offline
 
-# Copy the project source code to the container
+# Copy the source code
 COPY src/ ./src/
 
-# Build the application inside the container
+# Build the project
 RUN mvn package -DskipTests
 
-# Use a lightweight Java 11 image as the base image
-FROM openjdk:17-jdk-slim
+# Stage 2: Create the final container
+FROM adoptopenjdk:17-jdk-hotspot
 
-# Set the working directory in the container
 WORKDIR /app
 
 # Copy the built JAR file from the builder stage to the container
@@ -28,6 +26,5 @@ COPY --from=builder /app/target/hub-0.0.1-SNAPSHOT.jar .
 # Expose the port that the application listens on
 EXPOSE 8080
 
-# Set the command to run the application
+# Define the command to run the application
 CMD ["java", "-jar", "hub-0.0.1-SNAPSHOT.jar"]
-
