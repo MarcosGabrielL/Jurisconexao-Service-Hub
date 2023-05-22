@@ -16,7 +16,7 @@ COPY src/ ./src/
 RUN mvn package -DskipTests
 
 # Stage 2: Create the final container
-FROM FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-slim
 
 
 WORKDIR /app
