@@ -1,20 +1,33 @@
 # Define a imagem base
 FROM openjdk:17-jdk-slim
 
-# Define o diretório de trabalho dentro do container
+# Set the working directory in the container
 WORKDIR /app
 
-# Copia o arquivo pom.xml para o diretório de trabalho
+# Copy the pom.xml file to the container
 COPY pom.xml .
 
-# Executa o comando para baixar as dependências do Maven
+# Download the dependencies and cache them in the container
 RUN mvn dependency:go-offline
 
-# Copia todo o código fonte para o diretório de trabalho
-COPY . .
+# Copy the project source code to the container
+COPY src/ ./src/
 
-# Executa o comando para compilar o projeto
+# Build the application inside the container
 RUN mvn package -DskipTests
 
-# Define o comando de inicialização do container
-CMD ["java", "-jar", "target/hub-0.0.1-SNAPSHOT.jar"]
+# Use a lightweight Java 11 image as the base image
+FROM openjdk:17-jdk-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the built JAR file from the builder stage to the container
+COPY --from=builder /app/target/hub-0.0.1-SNAPSHOT.jar .
+
+# Expose the port that the application listens on
+EXPOSE 8080
+
+# Set the command to run the application
+CMD ["java", "-jar", "hub-0.0.1-SNAPSHOT.jar"]
+
