@@ -30,3 +30,4 @@ EXPOSE 8080
 
 # Set the command to run the application
 CMD ["java", "-jar", "hub-0.0.1-SNAPSHOT.jar"]
+
