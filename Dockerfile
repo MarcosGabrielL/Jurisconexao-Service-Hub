@@ -1,5 +1,5 @@
 # Define a imagem base
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-slim  AS builder
 
 # Set the working directory in the container
 WORKDIR /app
