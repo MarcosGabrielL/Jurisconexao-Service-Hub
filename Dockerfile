@@ -8,8 +8,6 @@ COPY mvnw pom.xml ./
 RUN sed -i 's/\r$//' mvnw
 RUN chmod +x mvnw
 
-RUN apk add --no-cache tzdata
-ENV TZ=America/Bahia
 
 COPY src ./src
 
