@@ -16,7 +16,8 @@ COPY src/ ./src/
 RUN mvn package -DskipTests
 
 # Stage 2: Create the final container
-FROM adoptopenjdk:17-jdk-hotspot
+FROM FROM openjdk:17-jdk-slim
+
 
 WORKDIR /app
 
